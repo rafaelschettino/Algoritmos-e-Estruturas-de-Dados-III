@@ -78,14 +78,15 @@ public class CRUD<T extends Registro>{
         T objeto = null;    //Objeto de retorno        
         boolean encontrado = false;
         boolean indisponivel = false;
-        int tam_registro = 0;        
+        int tam_registro = -1;      
+        long tam_arquivo = arquivo.length();  
 
         try{
             //Abre o arquivo
             arquivo.seek(4);
 
             //Enquanto o id que esta sendo procurado nao for encontrado e enquanto nao atingirmos o fim do arquivo.
-            while(encontrado == false && arquivo.getFilePointer() < arquivo.length() ) {
+            while(encontrado == false && arquivo.getFilePointer() < tam_arquivo) {
 
                 //Verifica pelos bytes de lapide se o registro esta valido.
                 if(arquivo.readChar() != '*'){
@@ -96,14 +97,12 @@ public class CRUD<T extends Registro>{
 
                 tam_registro = arquivo.readInt(); //Numero inteiro que indica o tamanho do vetor de bytes  
                 
-                if(indisponivel == true) {
+                if(indisponivel == true){
                     arquivo.seek(arquivo.getFilePointer() + tam_registro);  //Se o registro estiver indisponivel, pulo para o proximo
                 } else {
                     byte[] ByteArray = new byte[tam_registro];
-                    arquivo.read(ByteArray);
-
-                    //Crio o objeto de retorno com os dados do registro lido.
-                    objeto = this.construtor.newInstance();
+                    arquivo.read(ByteArray);                   
+                    objeto = this.construtor.newInstance(); //Crio o objeto de retorno com os dados do registro lido.
                     objeto.fromByteArray(ByteArray);    
 
                     //Verifica se o id do registro correponde ao id que esta sendo procurado.
@@ -130,7 +129,7 @@ public class CRUD<T extends Registro>{
 
     /**
      * Metodo de alteração de um registro.
-     * @param T objeto 
+     * @param T objeto com dados atualizados. 
      * @return boolean se a operação foi bem sucedida ou não.
      */
     public boolean update(T objeto) throws Exception{
@@ -139,14 +138,14 @@ public class CRUD<T extends Registro>{
         boolean encontrado = false;
         boolean indisponivel = false; //Se os bytes de lapide indicam um registro invalido.
         int tam_registro = -1;
-        long tamanho_arq = arquivo.length();
+        long tam_arquivo = arquivo.length();
         long endereco_lapide = -1;
 
         try{
             arquivo.seek(4);    //Abrindo o arquivo.
 
             //Enquanto o id que esta sendo procurado nao for encontrado e enquanto nao atingirmos o fim do arquivo.
-            while(encontrado == false && arquivo.getFilePointer() < tamanho_arq){
+            while(encontrado == false && arquivo.getFilePointer() < tam_arquivo){
 
                 //Guardo o endereco da lapide
                 endereco_lapide = arquivo.getFilePointer();
@@ -175,8 +174,8 @@ public class CRUD<T extends Registro>{
                     arquivo.writeChar('*');     //Atualizo os bytes de lapide indicando a remocao do registro.
                     sucesso = true;
 
-                    //Segundo passo: Crio um novo registro ao final do arquivo, com as alteracoes desejadas
-                    arquivo.seek(arquivo.length());
+                    //Segundo passo: Crio um novo registro ao final do arquivo, com as alteracoes desejadas.
+                    arquivo.seek(arquivo.length()); //Abro no final do arquivo.
                     byte[] array_objeto = objeto.toByteArray();
                     arquivo.writeChar(' '); //Lapide do registro.
                     arquivo.writeInt(array_objeto.length); //Numero inteiro que indica o tamanho do vetor de bytes
@@ -204,7 +203,7 @@ public class CRUD<T extends Registro>{
         boolean encontrado = false;
         boolean indisponivel = false; //Se os bytes de lapide indicam um registro invalido.
         int tam_registro = -1;
-        long tamanho_arq = arquivo.length();
+        long tam_arquivo = arquivo.length();
         long endereco_lapide = -1;
         boolean sucesso = false; //Retorna true se a operacao de exclusao foi um sucesso.
 
@@ -213,7 +212,7 @@ public class CRUD<T extends Registro>{
             arquivo.seek(4);    //Abrindo o arquivo.
 
             //Enquanto o id que esta sendo procurado nao for encontrado e enquanto nao atingirmos o fim do arquivo.
-            while(encontrado == false && arquivo.getFilePointer() < tamanho_arq){
+            while(encontrado == false && arquivo.getFilePointer() < tam_arquivo){
 
                 //Guardo o endereco da lapide
                 endereco_lapide = arquivo.getFilePointer();

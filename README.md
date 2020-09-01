@@ -23,7 +23,7 @@ Método de exclusão de um registro. Processo parecido com o de leitura. A condi
 ```
 public boolean delete(int id){}
 ```
-Método de alteração de um registro. Nesse método não consegui utilizar as condições de tamanho do registro atual e tamanho do registro após ser alterado. Assim, o que foi feito foi a exclusão do registro desatualizado e a inclusão do mesmo, já com as alterações, ao final do arquivo. Com isso, essa função ficou uma mistura entre os métodos delete() e create(). Fazendo o mesmo processo do método de exclusão e ainda a inclusão do novo registro ao final do arquivo.
+Método de alteração de um registro. Nesse método não consegui utilizar as condições estabelecidas para  tamanho do registro atual e tamanho do registro após ser alterado. Assim, o que foi feito foi a exclusão do registro desatualizado e a inclusão do mesmo, já com as alterações, ao final do arquivo. Com isso, essa função ficou uma mistura entre os métodos delete() e create(). Fazendo o mesmo processo do método de exclusão e ainda a inclusão do novo registro ao final do arquivo.
 ```
 public boolean update(T objeto){}
 ```

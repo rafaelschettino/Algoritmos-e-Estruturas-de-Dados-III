@@ -11,19 +11,19 @@ Construtor da classe CRUD. Criação do arquivo de tipo RandomAccessFile e escri
 ```
 public CRUD(String nomeArquivo, Constructor<T> construtor){}
 ```
-Método que armazena o objeto recebido no arquivo. A primeira coisa a ser feita foi abrir o arquivo no início, guardar o valor do último ID utilizado e atribuir esse número ao objeto recebido como parâmetro. O segundo passo foi atualizar o cabeçalho do arquivo com o novo ID (id+1). E a última coisa feita foi abrir o arquivo no final e criar um registro para o objeto recebido, com os bytes de lápide, indicador de tamanho e os campos para os atributos.
+Método que armazena o objeto recebido no arquivo. A primeira coisa a ser feita foi abrir o arquivo no início, guardar o valor do último ID utilizado e atribuir esse número ao objeto recebido como parâmetro. O segundo passo foi atualizar o cabeçalho do arquivo com o novo ID (ID+1). E a última coisa feita foi abrir o arquivo no final e criar um registro para o objeto recebido, com os bytes de lápide, indicador de tamanho e os campos para os atributos.
 ```
 public int create(T objeto){}
 ```
-Método de leitura de um registro. Abro o arquivo depois do cabeçalho e farei uma busca sequencial de um registro utilizando como chave o seu id. Para cada registro, realizo a leitura dos seus bytes de lápide para verificar se ele se encontra disponível. Para cada registro indisponível encontrado eu vou para o próximo. Para cada registro disponível encontrado comparo seu ID com o ID recebido como parâmetro na função. Caso os IDs sejam iguais, encerro a procura e retorno o objeto encontrado.
+Método de leitura de um registro. Abro o arquivo depois do cabeçalho e farei uma busca sequencial de um registro utilizando como chave o seu id. Essa busca vai acontecer enquanto eu não encontrar ou registro e enquanto eu não chegar ao fim do arquivo. Para cada registro, realizo a leitura dos seus bytes de lápide para verificar se ele se encontra disponível. Para cada registro indisponível encontrado eu vou para o próximo. Para cada registro disponível encontrado comparo seu ID com o ID recebido como parâmetro na função. Caso os IDs sejam iguais, encerro a procura e retorno o objeto encontrado.
 ```
 public T read(int id){}
 ```
-
+Método de exclusão de um registro. Processo parecido com o de leitura. A condição para o loop é a mesma que a do método de leitura. Para cada execução da estrutura de repetição eu guardo o endereço da lápide de um registro e crio um novo objeto correspondente a esse registro. Caso o ID dese objeto seja igual ao ID recebido como parâmetro da função, tenho que excluí-lo. Abro o arquivo na posição da lápide (que guardei ao início do loop), altero o char vazio para um asterisco, representando que o objeto não estará mais disponível, encerro o loop e retorno true, indicando que a operação foi um sucesso.
 ```
 public boolean delete(int id){}
 ```
-
+Método de alteração de um registro. Nesse método não consegui utilizar as condições de tamanho do registro atual e tamanho do registro após ser alterado. Assim, o que foi feito foi a exclusão do registro desatualizado e a inclusão do mesmo, já com as alterações, ao final do arquivo. Com isso, essa função ficou uma mistura entre os métodos delete() e create(). Fazendo o mesmo processo do método de exclusão e ainda a inclusão do novo registro ao final do arquivo.
 ```
 public boolean update(T objeto){}
 ```

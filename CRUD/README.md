@@ -15,7 +15,7 @@ Método que armazena o objeto recebido no arquivo. A primeira coisa a ser feita 
 ```
 public int create(T objeto){}
 ```
-Método de leitura de um registro. Abro o arquivo depois do cabeçalho e farei uma busca sequencial de um registro utilizando como chave o seu ID. Essa busca vai acontecer enquanto eu não encontrar ou registro e enquanto eu não chegar ao fim do arquivo. Para cada registro, realizo a leitura dos seus bytes de lápide para verificar se ele se encontra disponível. Para cada registro indisponível encontrado eu vou para o próximo. Para cada registro disponível encontrado comparo seu ID com o ID recebido como parâmetro na função. Caso os IDs sejam iguais, encerro a procura e retorno o objeto encontrado.
+Método de leitura de um registro. Abro o arquivo depois do cabeçalho e farei uma busca sequencial de um registro utilizando como chave o seu ID. Essa busca vai acontecer enquanto eu não encontrar o registro e enquanto eu não chegar ao fim do arquivo. Para cada registro, realizo a leitura dos seus bytes de lápide para verificar se ele se encontra disponível. Para cada registro indisponível encontrado eu vou para o próximo. Para cada registro disponível encontrado comparo seu ID com o ID recebido como parâmetro na função. Caso os IDs sejam iguais, encerro a procura e retorno o objeto encontrado.
 ```
 public T read(int id){}
 ```

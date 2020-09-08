@@ -1,5 +1,5 @@
 /*********
- * TABELA HASH EXTENSÍVEL
+ * TABELA HASH EXTENSIVEL
  * int chave, long dado
  * 
  * Os nomes dos métodos foram mantidos em inglês
@@ -235,7 +235,7 @@ public class HashExtensivel {
       return s;
     }
 
-    protected long endereço(int p) {
+    protected long endereco(int p) {
       if (p > Math.pow(2, profundidadeGlobal))
         return -1;
       return enderecos[p];
@@ -275,11 +275,26 @@ public class HashExtensivel {
     quantidadeDadosPorCesto = n;
     nomeArquivoDiretorio = nd;
     nomeArquivoCestos = nc;
+    
+    //Verifica se já existe o diretório, para poder deleta-lo.
+    if(new File("dados").exists()){
+      //Verifica se existe algum arquivo anterior, para poder deleta-lo.
+      if(new File("dados/"  + nomeArquivoDiretorio).exists()){
+        new File("dados/"  + nomeArquivoDiretorio).delete();
+      }//fim if
 
-    File d = new File("dados");
-    if (!d.exists())
-      d.mkdir();
+      //Verifica se existe algum arquivo anterior, para poder deleta-lo.
+      if(new File("dados/" + nomeArquivoCestos).exists()){
+        new File("dados/" + nomeArquivoCestos).delete();
+      }//fim if
 
+      //Cria o diretório.
+      new File("dados").delete();
+    }//fim if   
+    
+    new File("dados");
+
+    //Cria os novos arquivos.
     arqDiretorio = new RandomAccessFile("dados/" + nomeArquivoDiretorio, "rw");
     arqCestos = new RandomAccessFile("dados/" + nomeArquivoCestos, "rw");
 
@@ -313,7 +328,7 @@ public class HashExtensivel {
     int i = diretorio.hash(chave);
 
     // Recupera o cesto
-    long enderecoCesto = diretorio.endereço(i);
+    long enderecoCesto = diretorio.endereco(i);
     Cesto c = new Cesto(quantidadeDadosPorCesto);
     byte[] ba = new byte[c.size()];
     arqCestos.seek(enderecoCesto);
@@ -389,7 +404,7 @@ public class HashExtensivel {
     int i = diretorio.hash(chave);
 
     // Recupera o cesto
-    long enderecoCesto = diretorio.endereço(i);
+    long enderecoCesto = diretorio.endereco(i);
     Cesto c = new Cesto(quantidadeDadosPorCesto);
     byte[] ba = new byte[c.size()];
     arqCestos.seek(enderecoCesto);
@@ -412,7 +427,7 @@ public class HashExtensivel {
     int i = diretorio.hash(chave);
 
     // Recupera o cesto
-    long enderecoCesto = diretorio.endereço(i);
+    long enderecoCesto = diretorio.endereco(i);
     Cesto c = new Cesto(quantidadeDadosPorCesto);
     byte[] ba = new byte[c.size()];
     arqCestos.seek(enderecoCesto);
@@ -443,7 +458,7 @@ public class HashExtensivel {
     int i = diretorio.hash(chave);
 
     // Recupera o cesto
-    long enderecoCesto = diretorio.endereço(i);
+    long enderecoCesto = diretorio.endereco(i);
     Cesto c = new Cesto(quantidadeDadosPorCesto);
     byte[] ba = new byte[c.size()];
     arqCestos.seek(enderecoCesto);

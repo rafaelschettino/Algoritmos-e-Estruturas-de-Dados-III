@@ -47,14 +47,14 @@ public class Teste{
             }//fim if
 
             //Altera um livro para um tamanho maior e exibe o resultado
-            //l2.autor = "Richard Burton Matheson";
-            //arqLivros.update(l2);
-            //System.out.println(arqLivros.read(id2));
+            l2.autor = "Richard Burton Matheson";
+            arqLivros.update(l2);
+            System.out.println(arqLivros.read(id2));
 
             //Altera um livro para um tamanho menor e exibe o resultado
-            //l1.autor = "I. Asimov";
-            //arqLivros.update(l1);
-            //System.out.println(arqLivros.read(id1));
+            l1.autor = "I. Asimov";
+            arqLivros.update(l1);
+            System.out.println(arqLivros.read(id1));
             
 
         }catch(Exception e){

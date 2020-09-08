@@ -2,8 +2,8 @@
  * ARVORE B+ SI
  * String chave, int dado
  * 
- * Os nomes dos métodos foram mantidos em inglês
- * apenas para manter a coerência com o resto da
+ * Os nomes dos metodos foram mantidos em ingles
+ * apenas para manter a coerencia com o resto da
  * disciplina:
  * - boolean create(String chave, int dado)
  * - int read(String chave)
@@ -19,15 +19,15 @@
 import java.io.*;
 import java.util.ArrayList;
 
-// Árvore B+ para ser usada como índice indireto de algum arquivo de entidades
-// CHAVE: String  (usado para algum atributo textual da entidade como Nome, Título, ...)
+// Arvore B+ para ser usada como índice indireto de algum arquivo de entidades
+// CHAVE: String  (usado para algum atributo textual da entidade como Nome, Titulo, ...)
 // VALOR: Int     (usado para o identificador dessa entidade)
 
 public class ArvoreBMais_String_Int {
 
-    private int  ordem;                 // Número máximo de filhos que uma página pode conter
-    private int  maxElementos;          // Variável igual a ordem - 1 para facilitar a clareza do código
-    private int  maxFilhos;             // Variável igual a ordem para facilitar a clareza do código
+    private int  ordem;                 // Numero maximo de filhos que uma pagina pode conter
+    private int  maxElementos;          // Variavel igual a ordem - 1 para facilitar a clareza do codigo
+    private int  maxFilhos;             // Variavel igual a ordem para facilitar a clareza do codigo
     private RandomAccessFile arquivo;   // Arquivo em que a árvore será armazenada
     private String nomeArquivo;
     
@@ -170,9 +170,18 @@ public class ArvoreBMais_String_Int {
         maxFilhos = o;
         nomeArquivo = na;
 
-        File d = new File("dados");
-        if (!d.exists())
-          d.mkdir();
+        //Verifica se já existe o diretório, para poder deleta-lo.
+        if(new File("dados").exists()){
+            //Verifica se existe algum arquivo anterior, para poder deleta-lo.
+            if(new File("dados/" + nomeArquivo).exists()){
+                new File("dados/" + nomeArquivo).delete();
+            }//fim if
+
+            new File("dados").delete();
+        }//fim if
+
+        //Cria o diretório.
+        new File("dados");
 
         // Abre (ou cria) o arquivo, escrevendo uma raiz empty, se necessário.
         arquivo = new RandomAccessFile("dados/"+nomeArquivo,"rw");

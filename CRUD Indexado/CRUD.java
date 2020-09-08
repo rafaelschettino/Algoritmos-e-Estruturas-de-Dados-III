@@ -137,8 +137,42 @@ public class CRUD<T extends Registro>{
      */
     public boolean update(T objeto) throws Exception{
         long endereco = -1;     //Endereco do registro a ser alterado.
+        int tam_registro = 0;   //Armazeno o tamanho do registro a ser alterado.
+        int tam_objeto = 0;     //Tamanho do objeto alterado recebido.
         boolean sucesso = false;
         
+        endereco = indiceDireto.read(objeto.getID());
+        arquivo.seek(endereco);
+        arquivo.readChar();
+        tam_registro = arquivo.readInt();      
+        //System.out.println(tam_registro);
+
+        tam_objeto = objeto.toByteArray().length;    
+        //System.out.println(tam_objeto);
+
+        //Se o objeto alterado é menor ou tem o mesmo tamanho 
+        if(tam_registro >= tam_objeto){
+            arquivo.seek(endereco);
+            arquivo.writeChar(' ');     //Bytes de lápide.
+            arquivo.writeInt(tam_objeto);   //Indicador de tamanho do registro.
+            arquivo.write(objeto.toByteArray());
+        }else{
+            arquivo.seek(endereco);
+            arquivo.writeChar('*');     //Excluo o registro desatualizado para colocar o atualizado ao final do arquivo.            
+            arquivo.seek(arquivo.length());     //Abro ao final do arquivo.
+            endereco = arquivo.length();    //Novo endereço do registro.
+
+            //Insiro o novo registro ao final do arquivo.
+            arquivo.writeChar(' ');     //Bytes de lápide.
+            arquivo.writeInt(tam_objeto);   //Indicador de tamanho do registro.
+            arquivo.write(objeto.toByteArray());
+
+            //Realizo as alterações também nos indices.
+            indiceDireto.update(objeto.getID(), endereco);
+            indiceIndireto.update(objeto.chaveSecundaria(), objeto.getID());
+
+            sucesso = true;
+        }//fim if
 
         return sucesso;
     }
